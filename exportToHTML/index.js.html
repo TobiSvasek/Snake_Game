@@ -1,0 +1,192 @@
+<html>
+<head>
+<title>index.js</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #6aab73;}
+.s4 { color: #2aacb8;}
+.s5 { color: #7a7e85;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+index.js</font>
+</center></td></tr></table>
+<pre><span class="s0">const </span><span class="s1">gameBoard </span><span class="s2">= </span><span class="s1">document</span><span class="s2">.</span><span class="s1">querySelector</span><span class="s2">(</span><span class="s3">'#gameBoard'</span><span class="s2">);</span>
+<span class="s0">const </span><span class="s1">ctx </span><span class="s2">= </span><span class="s1">gameBoard</span><span class="s2">.</span><span class="s1">getContext</span><span class="s2">(</span><span class="s3">'2d'</span><span class="s2">);</span>
+<span class="s0">const </span><span class="s1">scoreText </span><span class="s2">= </span><span class="s1">document</span><span class="s2">.</span><span class="s1">querySelector</span><span class="s2">(</span><span class="s3">'#scoreText'</span><span class="s2">);</span>
+<span class="s0">const </span><span class="s1">resetBtn </span><span class="s2">= </span><span class="s1">document</span><span class="s2">.</span><span class="s1">querySelector</span><span class="s2">(</span><span class="s3">'#resetBtn'</span><span class="s2">);</span>
+<span class="s0">const </span><span class="s1">gameWidth </span><span class="s2">= </span><span class="s1">gameBoard</span><span class="s2">.</span><span class="s1">width</span><span class="s2">;</span>
+<span class="s0">const </span><span class="s1">gameHeight </span><span class="s2">= </span><span class="s1">gameBoard</span><span class="s2">.</span><span class="s1">height</span><span class="s2">;</span>
+<span class="s0">const </span><span class="s1">boardBackground </span><span class="s2">=</span><span class="s3">&quot;white&quot;</span><span class="s2">;</span>
+<span class="s0">const </span><span class="s1">snakeColor </span><span class="s2">= </span><span class="s3">&quot;lightgreen&quot;</span><span class="s2">;</span>
+<span class="s0">const </span><span class="s1">snakeBorder </span><span class="s2">= </span><span class="s3">&quot;cadetblue&quot;</span><span class="s2">;</span>
+<span class="s0">const </span><span class="s1">foodColor </span><span class="s2">= </span><span class="s3">&quot;red&quot;</span><span class="s2">;</span>
+<span class="s0">const </span><span class="s1">foodBorder </span><span class="s2">= </span><span class="s3">&quot;green&quot;</span><span class="s2">;</span>
+<span class="s0">const </span><span class="s1">unitSize </span><span class="s2">= </span><span class="s4">25</span><span class="s2">;</span>
+
+<span class="s0">let </span><span class="s1">running </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
+<span class="s0">let </span><span class="s1">xVelocity </span><span class="s2">= </span><span class="s1">unitSize</span><span class="s2">;</span>
+<span class="s0">let </span><span class="s1">yVelocity </span><span class="s2">= </span><span class="s4">0</span><span class="s2">;</span>
+<span class="s0">let </span><span class="s1">foodX</span><span class="s2">;</span>
+<span class="s0">let </span><span class="s1">foodY</span><span class="s2">;</span>
+<span class="s0">let </span><span class="s1">score </span><span class="s2">= </span><span class="s4">0</span><span class="s2">;</span>
+<span class="s0">let </span><span class="s1">snake </span><span class="s2">= [</span>
+    <span class="s2">{ </span><span class="s1">x</span><span class="s2">: </span><span class="s1">unitSize </span><span class="s2">* </span><span class="s4">4</span><span class="s2">, </span><span class="s1">y</span><span class="s2">: </span><span class="s4">0 </span><span class="s2">},</span>
+    <span class="s2">{ </span><span class="s1">x</span><span class="s2">: </span><span class="s1">unitSize </span><span class="s2">* </span><span class="s4">3</span><span class="s2">, </span><span class="s1">y</span><span class="s2">: </span><span class="s4">0 </span><span class="s2">},</span>
+    <span class="s2">{ </span><span class="s1">x</span><span class="s2">: </span><span class="s1">unitSize </span><span class="s2">* </span><span class="s4">2</span><span class="s2">, </span><span class="s1">y</span><span class="s2">: </span><span class="s4">0 </span><span class="s2">},</span>
+    <span class="s2">{ </span><span class="s1">x</span><span class="s2">: </span><span class="s1">unitSize</span><span class="s2">, </span><span class="s1">y</span><span class="s2">: </span><span class="s4">0 </span><span class="s2">},</span>
+    <span class="s2">{ </span><span class="s1">x</span><span class="s2">: </span><span class="s4">0</span><span class="s2">, </span><span class="s1">y</span><span class="s2">: </span><span class="s4">0 </span><span class="s2">}</span>
+<span class="s2">];</span>
+
+<span class="s1">window</span><span class="s2">.</span><span class="s1">addEventListener</span><span class="s2">(</span><span class="s3">'keydown'</span><span class="s2">, </span><span class="s1">changeDirection</span><span class="s2">);</span>
+<span class="s1">resetBtn</span><span class="s2">.</span><span class="s1">addEventListener</span><span class="s2">(</span><span class="s3">'click'</span><span class="s2">, </span><span class="s1">resetGame</span><span class="s2">);</span>
+
+<span class="s1">gameStart</span><span class="s2">();</span>
+
+<span class="s0">function </span><span class="s1">gameStart</span><span class="s2">(){</span>
+    <span class="s1">running </span><span class="s2">= </span><span class="s0">true</span><span class="s2">;</span>
+    <span class="s1">scoreText</span><span class="s2">.</span><span class="s1">textContent </span><span class="s2">= </span><span class="s1">score</span><span class="s2">;</span>
+    <span class="s1">createFood</span><span class="s2">();</span>
+    <span class="s1">drawFood</span><span class="s2">();</span>
+    <span class="s1">nextTick</span><span class="s2">()</span>
+<span class="s2">}</span>
+<span class="s0">function </span><span class="s1">nextTick</span><span class="s2">(){</span>
+    <span class="s0">if</span><span class="s2">(</span><span class="s1">running</span><span class="s2">){</span>
+        <span class="s1">setTimeout</span><span class="s2">(() =&gt; {</span>
+            <span class="s1">clearBoard</span><span class="s2">();</span>
+            <span class="s1">drawFood</span><span class="s2">();</span>
+            <span class="s1">moveSnake</span><span class="s2">();</span>
+            <span class="s1">drawSnake</span><span class="s2">();</span>
+            <span class="s1">checkGameOver</span><span class="s2">();</span>
+            <span class="s1">nextTick</span><span class="s2">();</span>
+        <span class="s2">}, </span><span class="s4">75</span><span class="s2">);</span>
+    <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+        <span class="s1">displayGameOver</span><span class="s2">();</span>
+    <span class="s2">}</span>
+<span class="s2">}</span>
+
+<span class="s0">function </span><span class="s1">clearBoard</span><span class="s2">(){</span>
+    <span class="s1">ctx</span><span class="s2">.</span><span class="s1">fillStyle </span><span class="s2">= </span><span class="s1">boardBackground</span><span class="s2">;</span>
+    <span class="s1">ctx</span><span class="s2">.</span><span class="s1">fillRect</span><span class="s2">(</span><span class="s4">0</span><span class="s2">, </span><span class="s4">0</span><span class="s2">, </span><span class="s1">gameWidth</span><span class="s2">, </span><span class="s1">gameHeight</span><span class="s2">);</span>
+<span class="s2">}</span>
+
+<span class="s0">function </span><span class="s1">createFood</span><span class="s2">(){</span>
+    <span class="s0">function </span><span class="s1">randomFood</span><span class="s2">(</span><span class="s1">min</span><span class="s2">, </span><span class="s1">max</span><span class="s2">) {</span>
+        <span class="s0">const </span><span class="s1">randNum </span><span class="s2">= </span><span class="s1">Math</span><span class="s2">.</span><span class="s1">round</span><span class="s2">((</span><span class="s1">Math</span><span class="s2">.</span><span class="s1">random</span><span class="s2">() * (</span><span class="s1">max </span><span class="s2">- </span><span class="s1">min</span><span class="s2">) + </span><span class="s1">min</span><span class="s2">) / </span><span class="s1">unitSize</span><span class="s2">) * </span><span class="s1">unitSize</span><span class="s2">;</span>
+        <span class="s0">return </span><span class="s1">randNum</span><span class="s2">;</span>
+    <span class="s2">}</span>
+    <span class="s1">foodX </span><span class="s2">= </span><span class="s1">randomFood</span><span class="s2">(</span><span class="s4">0</span><span class="s2">, </span><span class="s1">gameWidth </span><span class="s2">- </span><span class="s1">unitSize</span><span class="s2">);</span>
+    <span class="s1">foodY </span><span class="s2">= </span><span class="s1">randomFood</span><span class="s2">(</span><span class="s4">0</span><span class="s2">, </span><span class="s1">gameWidth </span><span class="s2">- </span><span class="s1">unitSize</span><span class="s2">);</span>
+<span class="s2">}</span>
+<span class="s0">function </span><span class="s1">drawFood</span><span class="s2">(){</span>
+    <span class="s1">ctx</span><span class="s2">.</span><span class="s1">fillStyle </span><span class="s2">= </span><span class="s1">foodColor</span><span class="s2">;</span>
+    <span class="s1">ctx</span><span class="s2">.</span><span class="s1">strokeStyle </span><span class="s2">= </span><span class="s1">foodBorder</span><span class="s2">;</span>
+    <span class="s1">ctx</span><span class="s2">.</span><span class="s1">fillRect</span><span class="s2">(</span><span class="s1">foodX</span><span class="s2">, </span><span class="s1">foodY</span><span class="s2">, </span><span class="s1">unitSize</span><span class="s2">, </span><span class="s1">unitSize</span><span class="s2">);</span>
+<span class="s2">}</span>
+<span class="s0">function </span><span class="s1">moveSnake</span><span class="s2">(){</span>
+    <span class="s0">const </span><span class="s1">head </span><span class="s2">= { </span><span class="s1">x</span><span class="s2">: </span><span class="s1">snake</span><span class="s2">[</span><span class="s4">0</span><span class="s2">].</span><span class="s1">x </span><span class="s2">+ </span><span class="s1">xVelocity</span><span class="s2">, </span><span class="s1">y</span><span class="s2">: </span><span class="s1">snake</span><span class="s2">[</span><span class="s4">0</span><span class="s2">].</span><span class="s1">y </span><span class="s2">+ </span><span class="s1">yVelocity </span><span class="s2">};</span>
+    <span class="s1">snake</span><span class="s2">.</span><span class="s1">unshift</span><span class="s2">(</span><span class="s1">head</span><span class="s2">); </span><span class="s5">// Add new head</span>
+
+    <span class="s5">// Check if the snake ate the apple</span>
+    <span class="s0">if</span><span class="s2">(</span><span class="s1">snake</span><span class="s2">[</span><span class="s4">0</span><span class="s2">].</span><span class="s1">x </span><span class="s2">=== </span><span class="s1">foodX </span><span class="s2">&amp;&amp; </span><span class="s1">snake</span><span class="s2">[</span><span class="s4">0</span><span class="s2">].</span><span class="s1">y </span><span class="s2">=== </span><span class="s1">foodY</span><span class="s2">){</span>
+        <span class="s1">score </span><span class="s2">+= </span><span class="s4">1</span><span class="s2">;</span>
+        <span class="s1">scoreText</span><span class="s2">.</span><span class="s1">textContent </span><span class="s2">= </span><span class="s1">score</span><span class="s2">;</span>
+        <span class="s1">createFood</span><span class="s2">();</span>
+    <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+        <span class="s5">// If the snake didn't eat the apple, remove the tail</span>
+        <span class="s1">snake</span><span class="s2">.</span><span class="s1">pop</span><span class="s2">(); </span><span class="s5">// Remove the last segment if the snake didn't eat the apple</span>
+    <span class="s2">}</span>
+<span class="s2">}</span>
+
+
+<span class="s0">function </span><span class="s1">drawSnake</span><span class="s2">(){</span>
+    <span class="s1">ctx</span><span class="s2">.</span><span class="s1">fillStyle </span><span class="s2">= </span><span class="s1">snakeColor</span><span class="s2">;</span>
+    <span class="s1">ctx</span><span class="s2">.</span><span class="s1">strokeStyle </span><span class="s2">= </span><span class="s1">snakeBorder</span><span class="s2">;</span>
+    <span class="s1">snake</span><span class="s2">.</span><span class="s1">forEach</span><span class="s2">(</span><span class="s1">snakePart </span><span class="s2">=&gt; {</span>
+        <span class="s1">ctx</span><span class="s2">.</span><span class="s1">fillRect</span><span class="s2">(</span><span class="s1">snakePart</span><span class="s2">.</span><span class="s1">x</span><span class="s2">, </span><span class="s1">snakePart</span><span class="s2">.</span><span class="s1">y</span><span class="s2">, </span><span class="s1">unitSize</span><span class="s2">, </span><span class="s1">unitSize</span><span class="s2">);</span>
+        <span class="s1">ctx</span><span class="s2">.</span><span class="s1">strokeRect</span><span class="s2">(</span><span class="s1">snakePart</span><span class="s2">.</span><span class="s1">x</span><span class="s2">, </span><span class="s1">snakePart</span><span class="s2">.</span><span class="s1">y</span><span class="s2">, </span><span class="s1">unitSize</span><span class="s2">, </span><span class="s1">unitSize</span><span class="s2">);</span>
+    <span class="s2">});</span>
+<span class="s2">}</span>
+
+<span class="s0">function </span><span class="s1">changeDirection</span><span class="s2">(</span><span class="s1">event</span><span class="s2">){</span>
+    <span class="s0">const </span><span class="s1">keyPressed </span><span class="s2">= </span><span class="s1">event</span><span class="s2">.</span><span class="s1">keyCode</span><span class="s2">;</span>
+    <span class="s0">const </span><span class="s1">LEFT </span><span class="s2">= </span><span class="s4">37</span><span class="s2">;</span>
+    <span class="s0">const </span><span class="s1">UP </span><span class="s2">= </span><span class="s4">38</span><span class="s2">;</span>
+    <span class="s0">const </span><span class="s1">RIGHT </span><span class="s2">= </span><span class="s4">39</span><span class="s2">;</span>
+    <span class="s0">const </span><span class="s1">DOWN </span><span class="s2">= </span><span class="s4">40</span><span class="s2">;</span>
+
+    <span class="s0">const </span><span class="s1">goingUp </span><span class="s2">= (</span><span class="s1">yVelocity </span><span class="s2">=== -</span><span class="s1">unitSize</span><span class="s2">);</span>
+    <span class="s0">const </span><span class="s1">goingDown </span><span class="s2">= (</span><span class="s1">yVelocity </span><span class="s2">=== </span><span class="s1">unitSize</span><span class="s2">);</span>
+    <span class="s0">const </span><span class="s1">goingRight </span><span class="s2">= (</span><span class="s1">xVelocity </span><span class="s2">=== </span><span class="s1">unitSize</span><span class="s2">);</span>
+    <span class="s0">const </span><span class="s1">goingLeft </span><span class="s2">= (</span><span class="s1">xVelocity </span><span class="s2">=== -</span><span class="s1">unitSize</span><span class="s2">);</span>
+
+    <span class="s0">switch</span><span class="s2">(</span><span class="s0">true</span><span class="s2">){</span>
+        <span class="s0">case</span><span class="s2">(</span><span class="s1">keyPressed </span><span class="s2">=== </span><span class="s1">LEFT </span><span class="s2">&amp;&amp; !</span><span class="s1">goingRight</span><span class="s2">):</span>
+            <span class="s1">xVelocity </span><span class="s2">= -</span><span class="s1">unitSize</span><span class="s2">;</span>
+            <span class="s1">yVelocity </span><span class="s2">= </span><span class="s4">0</span><span class="s2">;</span>
+            <span class="s0">break</span><span class="s2">;</span>
+        <span class="s0">case</span><span class="s2">(</span><span class="s1">keyPressed </span><span class="s2">=== </span><span class="s1">UP </span><span class="s2">&amp;&amp; !</span><span class="s1">goingDown</span><span class="s2">):</span>
+            <span class="s1">xVelocity </span><span class="s2">= </span><span class="s4">0</span><span class="s2">;</span>
+            <span class="s1">yVelocity </span><span class="s2">= -</span><span class="s1">unitSize</span><span class="s2">;</span>
+            <span class="s0">break</span><span class="s2">;</span>
+        <span class="s0">case</span><span class="s2">(</span><span class="s1">keyPressed </span><span class="s2">=== </span><span class="s1">RIGHT </span><span class="s2">&amp;&amp; !</span><span class="s1">goingLeft</span><span class="s2">):</span>
+            <span class="s1">xVelocity </span><span class="s2">= </span><span class="s1">unitSize</span><span class="s2">;</span>
+            <span class="s1">yVelocity </span><span class="s2">= </span><span class="s4">0</span><span class="s2">;</span>
+            <span class="s0">break</span><span class="s2">;</span>
+        <span class="s0">case</span><span class="s2">(</span><span class="s1">keyPressed </span><span class="s2">=== </span><span class="s1">DOWN </span><span class="s2">&amp;&amp; !</span><span class="s1">goingUp</span><span class="s2">):</span>
+            <span class="s1">xVelocity </span><span class="s2">= </span><span class="s4">0</span><span class="s2">;</span>
+            <span class="s1">yVelocity </span><span class="s2">= </span><span class="s1">unitSize</span><span class="s2">;</span>
+            <span class="s0">break</span><span class="s2">;</span>
+    <span class="s2">}</span>
+<span class="s2">}</span>
+
+<span class="s0">function </span><span class="s1">checkGameOver</span><span class="s2">(){</span>
+    <span class="s0">switch</span><span class="s2">(</span><span class="s0">true</span><span class="s2">){</span>
+        <span class="s0">case </span><span class="s2">(</span><span class="s1">snake</span><span class="s2">[</span><span class="s4">0</span><span class="s2">].</span><span class="s1">x </span><span class="s2">&lt; </span><span class="s4">0</span><span class="s2">):</span>
+            <span class="s1">running </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
+            <span class="s0">break</span><span class="s2">;</span>
+        <span class="s0">case </span><span class="s2">(</span><span class="s1">snake</span><span class="s2">[</span><span class="s4">0</span><span class="s2">].</span><span class="s1">x </span><span class="s2">&gt;= </span><span class="s1">gameWidth</span><span class="s2">):</span>
+            <span class="s1">running </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
+            <span class="s0">break</span><span class="s2">;</span>
+        <span class="s0">case </span><span class="s2">(</span><span class="s1">snake</span><span class="s2">[</span><span class="s4">0</span><span class="s2">].</span><span class="s1">y </span><span class="s2">&lt; </span><span class="s4">0</span><span class="s2">):</span>
+            <span class="s1">running </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
+            <span class="s0">break</span><span class="s2">;</span>
+        <span class="s0">case </span><span class="s2">(</span><span class="s1">snake</span><span class="s2">[</span><span class="s4">0</span><span class="s2">].</span><span class="s1">y </span><span class="s2">&gt;= </span><span class="s1">gameHeight</span><span class="s2">):</span>
+            <span class="s1">running </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
+            <span class="s0">break</span><span class="s2">;</span>
+    <span class="s2">}</span>
+    <span class="s0">for</span><span class="s2">(</span><span class="s0">let </span><span class="s1">i </span><span class="s2">= </span><span class="s4">1</span><span class="s2">; </span><span class="s1">i </span><span class="s2">&lt; </span><span class="s1">snake</span><span class="s2">.</span><span class="s1">length</span><span class="s2">; </span><span class="s1">i</span><span class="s2">+=</span><span class="s4">1</span><span class="s2">){</span>
+        <span class="s0">if</span><span class="s2">(</span><span class="s1">snake</span><span class="s2">[</span><span class="s1">i</span><span class="s2">].</span><span class="s1">x </span><span class="s2">=== </span><span class="s1">snake</span><span class="s2">[</span><span class="s4">0</span><span class="s2">].</span><span class="s1">x </span><span class="s2">&amp;&amp; </span><span class="s1">snake</span><span class="s2">[</span><span class="s1">i</span><span class="s2">].</span><span class="s1">y </span><span class="s2">=== </span><span class="s1">snake</span><span class="s2">[</span><span class="s4">0</span><span class="s2">].</span><span class="s1">y</span><span class="s2">){</span>
+            <span class="s1">running </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+<span class="s2">}</span>
+
+<span class="s0">function </span><span class="s1">displayGameOver</span><span class="s2">(){</span>
+    <span class="s1">ctx</span><span class="s2">.</span><span class="s1">font </span><span class="s2">= </span><span class="s3">&quot;30px 'Agency FB', sans-serif&quot;</span><span class="s2">;</span>
+    <span class="s1">ctx</span><span class="s2">.</span><span class="s1">fillStyle </span><span class="s2">= </span><span class="s3">&quot;black&quot;</span><span class="s2">;</span>
+    <span class="s1">ctx</span><span class="s2">.</span><span class="s1">textAlign </span><span class="s2">= </span><span class="s3">&quot;center&quot;</span><span class="s2">;</span>
+    <span class="s1">ctx</span><span class="s2">.</span><span class="s1">fillText</span><span class="s2">(</span><span class="s3">&quot;Game Over&quot;</span><span class="s2">, </span><span class="s1">gameWidth </span><span class="s2">/ </span><span class="s4">2</span><span class="s2">, </span><span class="s1">gameHeight </span><span class="s2">/ </span><span class="s4">2</span><span class="s2">);</span>
+    <span class="s1">running </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
+<span class="s2">}</span>
+<span class="s0">function </span><span class="s1">resetGame</span><span class="s2">(){</span>
+    <span class="s1">score </span><span class="s2">= </span><span class="s4">0</span><span class="s2">;</span>
+    <span class="s1">xVelocity </span><span class="s2">= </span><span class="s1">unitSize</span><span class="s2">;</span>
+    <span class="s1">yVelocity </span><span class="s2">= </span><span class="s4">0</span><span class="s2">;</span>
+    <span class="s1">snake </span><span class="s2">= [</span>
+        <span class="s2">{ </span><span class="s1">x</span><span class="s2">: </span><span class="s1">unitSize </span><span class="s2">* </span><span class="s4">4</span><span class="s2">, </span><span class="s1">y</span><span class="s2">: </span><span class="s4">0 </span><span class="s2">},</span>
+        <span class="s2">{ </span><span class="s1">x</span><span class="s2">: </span><span class="s1">unitSize </span><span class="s2">* </span><span class="s4">3</span><span class="s2">, </span><span class="s1">y</span><span class="s2">: </span><span class="s4">0 </span><span class="s2">},</span>
+        <span class="s2">{ </span><span class="s1">x</span><span class="s2">: </span><span class="s1">unitSize </span><span class="s2">* </span><span class="s4">2</span><span class="s2">, </span><span class="s1">y</span><span class="s2">: </span><span class="s4">0 </span><span class="s2">},</span>
+        <span class="s2">{ </span><span class="s1">x</span><span class="s2">: </span><span class="s1">unitSize</span><span class="s2">, </span><span class="s1">y</span><span class="s2">: </span><span class="s4">0 </span><span class="s2">},</span>
+        <span class="s2">{ </span><span class="s1">x</span><span class="s2">: </span><span class="s4">0</span><span class="s2">, </span><span class="s1">y</span><span class="s2">: </span><span class="s4">0 </span><span class="s2">}</span>
+    <span class="s2">];</span>
+    <span class="s1">gameStart</span><span class="s2">();</span>
+<span class="s2">}</span></pre>
+</body>
+</html>
