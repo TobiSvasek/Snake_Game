@@ -18,6 +18,7 @@ let yVelocity = 0;
 let foodX;
 let foodY;
 let score = 0;
+let highScore = 0;
 let snake = [
     { x: unitSize * 4, y: 0 },
     { x: unitSize * 3, y: 0 },
@@ -29,6 +30,13 @@ let snake = [
 // vyvolani zmeny smeru hada a resetu hry
 window.addEventListener('keydown', changeDirection);
 resetBtn.addEventListener('click', resetGame);
+window.onload = function() {
+    localStorage.removeItem('highScore');
+
+    if(localStorage.getItem('highScore')) {
+        highScore = localStorage.getItem('highScore');
+    }
+};
 
 //start hry
 gameStart();
@@ -162,11 +170,28 @@ function checkGameOver(){
     }
 }
 
+function updateHighScore() {
+    if(score > highScore) {
+        highScore = score;
+        localStorage.setItem('highScore', highScore);
+    }
+}
+
+// Display the high score
+function displayHighScore() {
+    ctx.font = "25px 'Agency FB', sans-serif";
+    ctx.fillStyle = "black";
+    ctx.textAlign = "center";
+    ctx.fillText("High Score: " + highScore, gameWidth / 2, gameHeight / 2 + 50);
+}
+
 function displayGameOver(){
     ctx.font = "50px 'Agency FB', sans-serif";
     ctx.fillStyle = "black";
     ctx.textAlign = "center";
     ctx.fillText("Game Over", gameWidth / 2, gameHeight / 2);
+    updateHighScore();
+    displayHighScore();
     running = false;
 }
 
@@ -184,3 +209,5 @@ function resetGame(){
     ];
     gameStart();
 }
+
+
