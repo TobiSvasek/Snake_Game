@@ -213,5 +213,3 @@ function resetGame(){
     ];
     gameStart();
 }
-
-
