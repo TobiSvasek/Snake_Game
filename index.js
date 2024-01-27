@@ -27,7 +27,7 @@ let snake = [
     { x: 0, y: 0 }
 ];
 
-// vyvolani zmeny smeru hada a resetu hry
+// vyvolani zmeny smeru hada, resetu hry a highscore pri smrti
 window.addEventListener('keydown', changeDirection);
 resetBtn.addEventListener('click', resetGame);
 window.onload = function() {
