@@ -11,6 +11,8 @@ const snakeBorder = "cadetblue";
 const foodColor = "red";
 const foodBorder = "green";
 const unitSize = 25;
+const eatSound = new Audio('food.mp3');
+const gameoverSound = new Audio('gameover.mp3');
 
 let gameLoop;
 let running = false;
@@ -101,6 +103,7 @@ function moveSnake(){
         score += 1;
         scoreText.textContent = score;
         createFood();
+        eatSound.play().then(r => r);
     } else {
         // If the snake didn't eat the apple, remove the tail
         snake.pop(); // Remove the last segment if the snake didn't eat the apple
@@ -193,6 +196,7 @@ function displayGameOver(){
     updateHighScore();
     displayHighScore();
     running = false;
+    gameoverSound.play().then(r => r);
 }
 
 //funkce na reset hry
