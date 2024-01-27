@@ -20,7 +20,6 @@ let foodY;
 let score = 0;
 let highScore = 0;
 let snake = [
-    { x: unitSize * 4, y: 0 },
     { x: unitSize * 3, y: 0 },
     { x: unitSize * 2, y: 0 },
     { x: unitSize, y: 0 },
@@ -201,7 +200,6 @@ function resetGame(){
     xVelocity = unitSize;
     yVelocity = 0;
     snake = [
-        { x: unitSize * 4, y: 0 },
         { x: unitSize * 3, y: 0 },
         { x: unitSize * 2, y: 0 },
         { x: unitSize, y: 0 },
