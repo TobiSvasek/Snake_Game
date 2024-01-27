@@ -12,6 +12,7 @@ const foodColor = "red";
 const foodBorder = "green";
 const unitSize = 25;
 
+let gameLoop;
 let running = false;
 let xVelocity = unitSize;
 let yVelocity = 0;
@@ -49,7 +50,7 @@ function gameStart(){
 }
 function nextTick(){
     if(running){
-        setTimeout(() => {
+        gameLoop = setTimeout(() => {
             clearBoard();
             drawFood();
             moveSnake();
@@ -196,6 +197,7 @@ function displayGameOver(){
 
 //funkce na reset hry
 function resetGame(){
+    clearTimeout(gameLoop); // Clear the previous game loop
     score = 0;
     xVelocity = unitSize;
     yVelocity = 0;
