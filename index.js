@@ -74,7 +74,7 @@ function drawFood() {
     ctx.fillStyle = foodColor;
     ctx.strokeStyle = foodBorder;
 
-    // Draw a circle for the food with a border radius of 50%
+    //vytvoreni kolecka pro jablko
     ctx.beginPath();
     ctx.arc(foodX + unitSize / 2, foodY + unitSize / 2, unitSize / 2, 0, Math.PI * 2);
     ctx.fill();
@@ -88,14 +88,14 @@ function moveSnake(){
     const head = { x: snake[0].x + xVelocity, y: snake[0].y + yVelocity };
     snake.unshift(head); // Add new head
 
-    // Check if the snake ate the apple
+    //zkontrolovat jestli had snedl jablko
     if(snake[0].x === foodX && snake[0].y === foodY){
         score += 1;
         scoreText.textContent = score;
         createFood();
     } else {
-        // If the snake didn't eat the apple, remove the tail
-        snake.pop(); // Remove the last segment if the snake didn't eat the apple
+        //odebrat ocas pokud had nesnedl jablko
+        snake.pop(); 
     }
 }
 function drawSnake(){
