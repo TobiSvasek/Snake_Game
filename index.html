@@ -5,15 +5,32 @@
     <title>Had</title>
     <link href = "style.css" rel = "stylesheet">
     <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/427/427533.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 <div id = "gameContainer">
     <canvas id = "gameBoard" width = "475" height = "475"></canvas>
     <div id="info">
-        <p>Double tap the "Restart" button to go faster!</p>
+        <div class="thematic-container">
+            <p>Eat the red apples in order to progress!</p>
+            <p>Use the arrow keys to move the snake!</p>
+            <p>Press the "Restart" button to restart the game!</p>
+        </div>
     </div>
     <div id = "scoreText">0</div>
     <button id = "resetBtn">Restart</button>
+</div>
+
+<div id="highScoreContainer">
+    <div class="thematic-container">
+        <p id="highScoreText">High Score: 0</p>
+    </div>
+</div>
+
+<div class="footer">
+    <a href="https://m.facebook.com/people/Tobiáš-Svášek/100010807543566/" target="_blank" class="fa fa-facebook"></a>
+    <a href="https://www.linkedin.com/in/tobiáš-svášek-9b237a305?trk=contact-info" target="_blank" class="fa fa-linkedin-square"></a>
+    <a href="https://www.instagram.com/tobi_sekk/" target="_blank" class="fa fa-instagram"></a>
 </div>
 
 <script src = "index.js"></script>

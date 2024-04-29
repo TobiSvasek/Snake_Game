@@ -1,5 +1,7 @@
 body {
     background-image: url("https://wallpapers.com/images/hd/snake-game-1680-x-1050-background-6syqer1fr6oahe0b.jpg");
+    font-weight: bold;
+    text-shadow: 2px 2px 3px green;
 }
 
 #gameContainer {
@@ -8,6 +10,7 @@ body {
 
 #gameBoard {
     border: 4px solid black;
+    margin-right: 380px;
 }
 
 
@@ -32,6 +35,47 @@ body {
     width: 150px;
     height: 50px;
     float: left;
-    margin-right: -150px;
+    margin-left: 240px;
+    margin-top: 40px;
     font-weight: bold;
+
+}
+
+.thematic-container {
+    padding: 10px;
+    background-color: #407d40; /* Change this to your desired color */
+    border: 4px solid #000000;
+    border-radius: 5px; /* Adjust this to your preference */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* This adds a subtle shadow to the container */
+    color: white;
+    font-size: 20px;
+}
+
+#highScoreContainer {
+    font-family: "Agency FB", sans-serif;
+    font-size: 25px;
+    width: 150px;
+    height: 50px;
+    float: right;
+    margin-right: 240px;
+    margin-top: -450px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.footer {
+    background-color: #407d40;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.footer a {
+    color: white;
+    text-decoration: none;
+    padding: 15px;
+    font-size: 30px;
 }
