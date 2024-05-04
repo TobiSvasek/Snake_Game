@@ -44,6 +44,15 @@ window.onload = function() {
 gameStart();
 
 function gameStart(){
+    // Initialize the snake array and the score variable
+    snake = [
+        { x: unitSize * 3, y: 0 },
+        { x: unitSize * 2, y: 0 },
+        { x: unitSize, y: 0 },
+        { x: 0, y: 0 }
+    ];
+    score = 0;
+
     running = true;
     scoreText.textContent = score;
     createFood();
@@ -77,12 +86,16 @@ function createFood(){
         const randNum = Math.round((Math.random() * (max - min) + min) / unitSize) * unitSize;
         return randNum;
     }
-    foodX = randomFood(0, gameWidth - unitSize / 2);
+    foodX = randomFood(0, gameWidth - unitSize);
     foodY = randomFood(0, gameHeight - unitSize);
 }
 function drawFood() {
-    ctx.font = "30px Arial";
-    ctx.fillText("🍎", foodX + unitSize / 2, foodY + unitSize);
+    ctx.beginPath();
+    ctx.arc(foodX + unitSize / 2, foodY + unitSize / 2, unitSize / 2, 0, Math.PI * 2, true);
+    ctx.fillStyle = foodColor;
+    ctx.fill();
+    ctx.strokeStyle = foodBorder;
+    ctx.stroke();
 }
 
 //funkce na pohyb hada
@@ -91,10 +104,11 @@ function moveSnake(){
     snake.unshift(head); // Add new head
 
     // Check if the snake ate the apple
-    if (snake[0].x < foodX + unitSize &&
-        snake[0].x + unitSize > foodX &&
-        snake[0].y < foodY + unitSize &&
-        snake[0].y + unitSize > foodY) {
+    const dx = (snake[0].x + unitSize / 2) - (foodX + unitSize / 2);
+    const dy = (snake[0].y + unitSize / 2) - (foodY + unitSize / 2);
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    if (distance < unitSize / 2) {
         score += 1;
         scoreText.textContent = score;
         createFood();
@@ -184,7 +198,7 @@ function displayHighScore() {
     ctx.textAlign = "center";
     ctx.fillText("High Score: " + highScore, gameWidth / 2, gameHeight / 2 + 50);
     const highScoreText = document.querySelector('#highScoreText');
-    highScoreText.textContent = "High Score: " + highScore;
+    highScoreText.innerHTML = "High Score: <span id='highScoreNumber'>" + highScore + "</span>";
 }
 
 function displayGameOver(){
@@ -201,24 +215,7 @@ function displayGameOver(){
 //funkce na reset hry
 function resetGame(){
     clearTimeout(gameLoop); // Clear the previous game loop
-    score = 0;
     xVelocity = unitSize;
     yVelocity = 0;
-    snake = [
-        { x: unitSize * 3, y: 0 },
-        { x: unitSize * 2, y: 0 },
-        { x: unitSize, y: 0 },
-        { x: 0, y: 0 }
-    ];
     gameStart();
 }
-
-window.onload = function() {
-    localStorage.removeItem('highScore');
-
-    if(localStorage.getItem('highScore')) {
-        highScore = localStorage.getItem('highScore');
-    }
-
-    resetBtn.click(); // Simulate a click on the restart button
-};

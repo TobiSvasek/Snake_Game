@@ -53,7 +53,6 @@ body {
 
 #highScoreContainer {
     font-family: "Agency FB", sans-serif;
-    font-size: 25px;
     width: 150px;
     height: 50px;
     float: right;
@@ -61,6 +60,12 @@ body {
     margin-top: -450px;
     font-weight: bold;
     text-align: center;
+}
+
+#highScoreNumber {
+    color: #4e4ee3;
+    font-weight: bolder;
+    -webkit-text-stroke: 1px #a4a4f1;
 }
 
 .footer {
