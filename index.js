@@ -13,6 +13,8 @@ const foodBorder = "green";
 const unitSize = 25;
 const eatSound = new Audio('food.mp3');
 const gameoverSound = new Audio('gameover.mp3');
+const appleImg = new Image();
+appleImg.src = 'red-apple.png';
 
 let gameLoop;
 let running = false;
@@ -90,12 +92,8 @@ function createFood(){
     foodY = randomFood(0, gameHeight - unitSize);
 }
 function drawFood() {
-    ctx.beginPath();
-    ctx.arc(foodX + unitSize / 2, foodY + unitSize / 2, unitSize / 2, 0, Math.PI * 2, true);
-    ctx.fillStyle = foodColor;
-    ctx.fill();
-    ctx.strokeStyle = foodBorder;
-    ctx.stroke();
+    const unitSize = 33;
+    ctx.drawImage(appleImg, foodX, foodY, unitSize, unitSize);
 }
 
 //funkce na pohyb hada
