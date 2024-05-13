@@ -61,6 +61,7 @@ function gameStart(){
     drawFood();
     nextTick()
 }
+
 function nextTick(){
     if(running){
         gameLoop = setTimeout(() => {
@@ -116,6 +117,7 @@ function moveSnake(){
         snake.pop(); // Remove the last segment if the snake didn't eat the apple
     }
 }
+
 function drawSnake(){
     ctx.fillStyle = snakeColor;
     ctx.strokeStyle = snakeBorder;
