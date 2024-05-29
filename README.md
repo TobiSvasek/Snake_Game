@@ -3,11 +3,10 @@
 ## Obsah
 1. [Úvod](#úvod)
 2. [Požadavky](#požadavky)
-3. [Instalace](#instalace)
-4. [Struktura Projektu](#struktura-projektu)
-5. [Použití](#použití)
-6. [Vývoj a Nasazení](#vývoj-a-nasazení)
-7. [Kontakt](#kontakt)
+3. [Instalace a start hry](#instalace-a-start-hry)
+4. [Použití a controls](#použití-a-controls)
+5. [Vývoj a Nasazení](#vývoj-a-nasazení)
+6. [Kontakt](#kontakt)
 
 ## Úvod
 Tento projekt je jednoduchá implementace klasické hry Snake pomocí JavaScriptu, HTML a CSS. Hráč ovládá hada, který roste do délky, když pojídá jablka. Hra končí, když had narazí na hranice herního plánu nebo sám na sebe.
@@ -17,12 +16,12 @@ Tento projekt je jednoduchá implementace klasické hry Snake pomocí JavaScript
 - Webový prohlížeč (doporučeno Google Chrome)
 - Textový editor nebo IDE jako např. WebStorm od JetBrains.
 
-## Instalace a start hry
+## Instalace a Start Hry
 1. Naklonujte projekt do místního počítače.
 2. git clone https://github.com/TobiSvasek/Snake_Game.git
-2. Otevřete soubor 'index.html' ve webovém prohlížeči či IDE a spusťte hru.
+3. Otevřete soubor 'index.html' ve webovém prohlížeči či IDE a spusťte hru.
 
-## Použití a controls
+## Použití a Controls
 - Pomocí šipek ovládejte směr hada.
 - Had se prodlouží pokaždé, když sní jablko.
 - Hra končí ve chvíli, kdy had narazí na hranice herního plánu nebo sám na sebe.
