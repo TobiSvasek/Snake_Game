@@ -17,8 +17,9 @@ Tento projekt je jednoduchá implementace klasické hry Snake pomocí JavaScript
 - Webový prohlížeč (doporučeno Google Chrome)
 - Textový editor nebo IDE jako např. WebStorm od JetBrains.
 
-## Instalace
+## Instalace a start hry
 1. Naklonujte projekt do místního počítače.
+2. git clone https://github.com/TobiSvasek/Snake_Game.git
 2. Otevřete soubor 'index.html' ve webovém prohlížeči či IDE a spusťte hru.
 
 ## Použití a controls
@@ -36,4 +37,4 @@ Tento projekt je jednoduchá implementace klasické hry Snake pomocí JavaScript
 
 ## Kontakt
 - Tobiáš Svášek
-- 1143@student.itgymnazium.cz
+- E-mailová adresa: 1143@student.itgymnazium.cz
