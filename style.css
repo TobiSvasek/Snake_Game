@@ -43,10 +43,10 @@ body {
 
 .thematic-container {
     padding: 10px;
-    background-color: #407d40; /* Change this to your desired color */
+    background-color: #407d40;
     border: 4px solid #000000;
-    border-radius: 5px; /* Adjust this to your preference */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* This adds a subtle shadow to the container */
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
     color: white;
     font-size: 20px;
 }

@@ -1,19 +1,18 @@
-//konstanty
+//Constants
 const gameBoard = document.querySelector('#gameBoard');
 const ctx = gameBoard.getContext('2d');
 const scoreText = document.querySelector('#scoreText');
 const resetBtn = document.querySelector('#resetBtn');
 const gameWidth = gameBoard.width;
 const gameHeight = gameBoard.height;
-const boardBackground ="white";
+const boardBackground ="#dce8de";
 const snakeColor = "lightgreen";
 const snakeBorder = "cadetblue";
-const foodColor = "red";
-const foodBorder = "green";
 const unitSize = 25;
 const eatSound = new Audio('food.mp3');
 const gameoverSound = new Audio('gameover.mp3');
 const appleImg = new Image();
+const totalCells = (gameWidth * gameHeight) / (unitSize * unitSize);
 appleImg.src = 'red-apple.png';
 
 let gameLoop;
@@ -31,7 +30,7 @@ let snake = [
     { x: 0, y: 0 }
 ];
 
-// vyvolani zmeny smeru hada, resetu hry a highscore pri smrti
+// Change of direction, reset and high score event listeners
 window.addEventListener('keydown', changeDirection);
 resetBtn.addEventListener('click', resetGame);
 window.onload = function() {
@@ -42,9 +41,11 @@ window.onload = function() {
     }
 };
 
-//start hry
+//Start game
 gameStart();
 
+//FUNCTIONS
+//Game start function
 function gameStart(){
     // Initialize the snake array and the score variable
     snake = [
@@ -62,6 +63,7 @@ function gameStart(){
     nextTick()
 }
 
+//Game loop function
 function nextTick(){
     if(running){
         gameLoop = setTimeout(() => {
@@ -70,20 +72,26 @@ function nextTick(){
             moveSnake();
             drawSnake();
             checkGameOver();
-            nextTick();
+
+            // Check for victory
+            if (snake.length === totalCells) {
+                displayVictory();
+            } else {
+                nextTick();
+            }
         }, 75);
     } else {
         displayGameOver();
     }
 }
 
-//funkce na cistení canvasu
+//Canvas clearing function
 function clearBoard(){
     ctx.fillStyle = boardBackground;
     ctx.fillRect(0, 0, gameWidth, gameHeight);
 }
 
-//funkce na vytvoření jablek
+//Apple creation function
 function createFood(){
     function randomFood(min, max) {
         const randNum = Math.round((Math.random() * (max - min) + min) / unitSize) * unitSize;
@@ -93,11 +101,12 @@ function createFood(){
     foodY = randomFood(0, gameHeight - unitSize);
 }
 function drawFood() {
-    const unitSize = 33;
-    ctx.drawImage(appleImg, foodX, foodY, unitSize, unitSize);
+    const unitSize = 31;
+    ctx.drawImage(appleImg, foodX - 3, foodY - 3, unitSize, unitSize);
 }
 
-//funkce na pohyb hada
+
+//Snake movement function
 function moveSnake(){
     const head = { x: snake[0].x + xVelocity, y: snake[0].y + yVelocity };
     snake.unshift(head); // Add new head
@@ -118,6 +127,7 @@ function moveSnake(){
     }
 }
 
+//Snake drawing function
 function drawSnake(){
     ctx.fillStyle = snakeColor;
     ctx.strokeStyle = snakeBorder;
@@ -129,6 +139,7 @@ function drawSnake(){
     });
 }
 
+//Function for changing the direction of the snake
 function changeDirection(event){
     const keyPressed = event.keyCode;
     const LEFT = 37;
@@ -184,6 +195,7 @@ function checkGameOver(){
     }
 }
 
+// Update the high score function
 function updateHighScore() {
     if(score > highScore) {
         highScore = score;
@@ -191,7 +203,7 @@ function updateHighScore() {
     }
 }
 
-// Display the high score
+// Display the high score function
 function displayHighScore() {
     ctx.font = "bold 25px sans-serif";
     ctx.fillStyle = "black";
@@ -201,6 +213,7 @@ function displayHighScore() {
     highScoreText.innerHTML = "High Score: <span id='highScoreNumber'>" + highScore + "</span>";
 }
 
+//Display game over pop-up function
 function displayGameOver(){
     ctx.font = "bold 50px sans-serif";
     ctx.fillStyle = "black";
@@ -212,7 +225,16 @@ function displayGameOver(){
     gameoverSound.play().then(r => r);
 }
 
-//funkce na reset hry
+//Display victory pop-up function
+function displayVictory() {
+    clearTimeout(gameLoop);
+    ctx.font = "bold 50px sans-serif";
+    ctx.fillStyle = "black";
+    ctx.textAlign = "center";
+    ctx.fillText("Victory!", gameWidth / 2, gameHeight / 2);
+}
+
+//Game reset
 function resetGame(){
     clearTimeout(gameLoop); // Clear the previous game loop
     xVelocity = unitSize;
