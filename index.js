@@ -94,8 +94,7 @@ function clearBoard(){
 //Apple creation function
 function createFood(){
     function randomFood(min, max) {
-        const randNum = Math.round((Math.random() * (max - min) + min) / unitSize) * unitSize;
-        return randNum;
+        return Math.round((Math.random() * (max - min) + min) / unitSize) * unitSize;
     }
     foodX = randomFood(0, gameWidth - unitSize);
     foodY = randomFood(0, gameHeight - unitSize);
