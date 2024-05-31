@@ -172,7 +172,7 @@ function changeDirection(event){
     }
 }
 
-//funkce na kontrolu konce hry
+//Function for game-over check
 function checkGameOver(){
     switch(true){
         case (snake[0].x < 0):
