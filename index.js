@@ -15,6 +15,7 @@ const appleImg = new Image();
 const totalCells = (gameWidth * gameHeight) / (unitSize * unitSize);
 appleImg.src = 'red-apple.png';
 
+//VARIABLES
 let gameLoop;
 let running = false;
 let xVelocity = unitSize;
