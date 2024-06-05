@@ -31,7 +31,7 @@ let snake = [
     { x: 0, y: 0 }
 ];
 
-// Change of direction, reset and high score event listeners
+//Change of direction, reset and high score event listeners
 window.addEventListener('keydown', changeDirection);
 resetBtn.addEventListener('click', resetGame);
 window.onload = function() {
@@ -48,7 +48,7 @@ gameStart();
 //FUNCTIONS
 //Game start function
 function gameStart(){
-    // Initialize the snake array and the score variable
+    //Initialize the snake array and the score variable
     snake = [
         { x: unitSize * 3, y: 0 },
         { x: unitSize * 2, y: 0 },
@@ -74,7 +74,7 @@ function nextTick(){
             drawSnake();
             checkGameOver();
 
-            // Check for victory
+            //Check for victory
             if (snake.length === totalCells) {
                 displayVictory();
             } else {
@@ -111,7 +111,7 @@ function moveSnake(){
     const head = { x: snake[0].x + xVelocity, y: snake[0].y + yVelocity };
     snake.unshift(head); // Add new head
 
-    // Check if the snake ate the apple
+    //Check if the snake ate the apple
     const dx = (snake[0].x + unitSize / 2) - (foodX + unitSize / 2);
     const dy = (snake[0].y + unitSize / 2) - (foodY + unitSize / 2);
     const distance = Math.sqrt(dx * dx + dy * dy);
@@ -122,7 +122,7 @@ function moveSnake(){
         createFood();
         eatSound.play().then(r => r);
     } else {
-        // If the snake didn't eat the apple, remove the tail
+        //If the snake didn't eat the apple, remove the tail
         snake.pop(); // Remove the last segment if the snake didn't eat the apple
     }
 }
@@ -195,7 +195,7 @@ function checkGameOver(){
     }
 }
 
-// Update the high score function
+//Update the high score function
 function updateHighScore() {
     if(score > highScore) {
         highScore = score;
@@ -203,7 +203,7 @@ function updateHighScore() {
     }
 }
 
-// Display the high score function
+//Display the high score function
 function displayHighScore() {
     ctx.font = "bold 25px sans-serif";
     ctx.fillStyle = "black";
